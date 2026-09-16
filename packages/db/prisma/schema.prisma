@@ -25,6 +25,17 @@ enum QuestionSign {
   MULTIPLICATION
 }
 
+enum GameMemberStatus {
+  WON
+  LOSS
+}
+
+enum GameStatus {
+  RUNNING
+  SEARCHING_FOR_PLAYER
+  OVER
+}
+
 model User {
   id       String @id @default(uuid())
   email    String @unique
@@ -44,6 +55,7 @@ model Game {
   startedAt  DateTime
   endsAt     DateTime
   gameMember GameMember[]
+  status     GameStatus
   questions  Questions[]
 
   answers QuestionAnswer[]
@@ -77,9 +89,11 @@ model QuestionAnswer {
 }
 
 model GameMember {
-  id     String @id @default(uuid())
+  id     String           @id @default(uuid())
   userId String
-  user   User   @relation(references: [id], fields: [userId])
+  status GameMemberStatus
+
+  user User @relation(references: [id], fields: [userId])
 
   gameId String
   game   Game   @relation(references: [id], fields: [gameId])
@@ -88,6 +102,8 @@ model GameMember {
 model UserRating {
   id     String @id @default(uuid())
   userId String @unique
+
+  rating Int @default(0)
 
   user User @relation(references: [id], fields: [userId])
 }

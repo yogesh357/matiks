@@ -1,8 +1,16 @@
 {
-  "name": "db",
+  "name": "@repo/db",
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "exports": {
+   "./clients":"./index.ts"
+  },
+  "scripts": {
+    "generate": "bunx prisma generate",
+    "migrate": "prisma migrate dev",
+    "studio": "prisma studio"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/pg": "^8.23.1",
